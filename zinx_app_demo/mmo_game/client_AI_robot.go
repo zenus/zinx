@@ -11,8 +11,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/aceld/zinx/zinx_app_demo/mmo_game/pb"
 	"github.com/golang/protobuf/proto"
+	"github.com/zenus/zinx/zinx_app_demo/mmo_game/pb"
 )
 
 type Message struct {
@@ -155,7 +155,7 @@ func (this *TcpClient) AIRobotAction() {
 }
 
 /*
-	处理一个回执业务
+处理一个回执业务
 */
 func (this *TcpClient) DoMsg(msg *Message) {
 	//处理消息

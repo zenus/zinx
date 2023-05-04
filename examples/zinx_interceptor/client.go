@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/znet"
 	"time"
 )
 

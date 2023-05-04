@@ -3,8 +3,8 @@ package znet
 import (
 	"bytes"
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zlog"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
 	"path"
 	"runtime"
 	"strings"

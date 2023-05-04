@@ -1,8 +1,8 @@
 package zmetrics
 
 import (
-	"github.com/aceld/zinx/zconf"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/zenus/zinx/zconf"
 	"sync"
 	"time"
 )

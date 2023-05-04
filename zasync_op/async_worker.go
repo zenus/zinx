@@ -1,11 +1,11 @@
 /*
-	Package zasync_op
-	@Author：14March
-	@File：async_worker.go
+Package zasync_op
+@Author：14March
+@File：async_worker.go
 */
 package zasync_op
 
-import "github.com/aceld/zinx/zlog"
+import "github.com/zenus/zinx/zlog"
 
 type AsyncWorker struct {
 	taskQ chan func()

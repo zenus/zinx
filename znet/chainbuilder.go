@@ -7,8 +7,8 @@
 package znet
 
 import (
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zinterceptor"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zinterceptor"
 )
 
 // chainBuilder 责任链构造器

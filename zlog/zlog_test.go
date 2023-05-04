@@ -1,7 +1,7 @@
 package zlog_test
 
 import (
-	"github.com/aceld/zinx/zlog"
+	"github.com/zenus/zinx/zlog"
 	"testing"
 )
 

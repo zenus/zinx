@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zinx_app_demo/mmo_game/pb"
-	"github.com/aceld/zinx/zlog"
-	"github.com/aceld/zinx/znet"
 	"github.com/golang/protobuf/proto"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zinx_app_demo/mmo_game/pb"
+	"github.com/zenus/zinx/zlog"
+	"github.com/zenus/zinx/znet"
 )
 
 type PositionServerRouter struct {
 	znet.BaseRouter
 }
 
-//Ping Handle
+// Ping Handle
 func (this *PositionServerRouter) Handle(request ziface.IRequest) {
 
 	msg := &pb.Position{}

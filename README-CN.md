@@ -4,21 +4,21 @@
 [![License](https://img.shields.io/badge/License-GPL%203.0-black.svg)](LICENSE)
 [![Discord](https://img.shields.io/badge/zinx-Discord在线社区-blue.svg)](https://discord.gg/rM2sw5uv)
 [![Gitter](https://img.shields.io/badge/zinx-Gitter在线交流-green.svg)](https://gitter.im/zinx_go/community)
-[![zinx tutorial](https://img.shields.io/badge/Zinx教程-YuQue-red.svg)](https://www.yuque.com/aceld/npyr8s/bgftov)
-[![Original Book of Zinx](https://img.shields.io/badge/原创书籍-YuQue-black.svg)](https://www.yuque.com/aceld)
+[![zinx tutorial](https://img.shields.io/badge/Zinx教程-YuQue-red.svg)](https://www.yuque.com/zenus/npyr8s/bgftov)
+[![Original Book of Zinx](https://img.shields.io/badge/原创书籍-YuQue-black.svg)](https://www.yuque.com/zenus)
 
 Zinx 是一个基于Golang的轻量级并发服务器框架
 
 ## 开发者文档
 
-[《Zinx Documentation》](https://www.yuque.com/aceld/tsgooa/sbvzgczh3hqz8q3l)
+[《Zinx Documentation》](https://www.yuque.com/zenus/tsgooa/sbvzgczh3hqz8q3l)
 
 > **说明**:目前zinx已经在很多企业进行开发使用，具体使用领域包括:后端模块的消息中转、长链接游戏服务器、Web框架中的消息处理插件等。zinx的定位是代码简洁，让更多的开发者迅速的了解框架的内脏细节并且可以快速基于zinx DIY(二次开发)一款适合自己企业场景的模块。
 
 ---
 ## zinx源码地址
 ### Github
-Git: https://github.com/aceld/zinx
+Git: https://github.com/zenus/zinx
 
 ### 码云(Gitee)
 Git: https://gitee.com/Aceld/zinx
@@ -31,7 +31,7 @@ http://zinx.me
 ## 在线开发教程
 
 ### 文字教程
-[语雀-《Zinx框架教程-基于Golang的轻量级并发服务器》](https://www.yuque.com/aceld)
+[语雀-《Zinx框架教程-基于Golang的轻量级并发服务器》](https://www.yuque.com/zenus)
 
 ### 视频教程
 
@@ -69,7 +69,7 @@ Zinx框架的项目制作采用编码和学习教程同步进行，将开发的�
 
 #### Stargazers over time
 
-[![Stargazers over time](https://api.star-history.com/svg?repos=aceld/zinx&type=Date)](#zinx)
+[![Stargazers over time](https://api.star-history.com/svg?repos=zenus/zinx&type=Date)](#zinx)
 
 
 
@@ -83,7 +83,7 @@ Zinx框架的项目制作采用编码和学习教程同步进行，将开发的�
 
 ## 三、Zinx开发接口文档
 
-[《Zinx 开发接口文档》](https://www.yuque.com/aceld/tsgooa/sbvzgczh3hqz8q3l)
+[《Zinx 开发接口文档》](https://www.yuque.com/zenus/tsgooa/sbvzgczh3hqz8q3l)
 
 
 ### （1）快速开始
@@ -96,7 +96,7 @@ Golang 1.16+
 DownLoad zinx Source
 
 ```bash
-$go get github.com/aceld/zinx
+$go get github.com/zenus/zinx
 ```
 
 > note: Golang Version 1.16+
@@ -107,8 +107,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/znet"
 )
 
 // PingRouter MsgId=1的路由
@@ -152,8 +152,8 @@ $ go run server.go
  ▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀  ▀▀    ▀▀  ▀▀▀  ▀▀▀ 
                                         
 ┌──────────────────────────────────────────────────────┐
-│ [Github] https://github.com/aceld                    │
-│ [tutorial] https://www.yuque.com/aceld/npyr8s/bgftov │
+│ [Github] https://github.com/zenus                    │
+│ [tutorial] https://www.yuque.com/zenus/npyr8s/bgftov │
 └──────────────────────────────────────────────────────┘
 [Zinx] Version: V1.0, MaxConn: 12000, MaxPacketSize: 4096
 ===== Zinx Global Config =====
@@ -198,8 +198,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/znet"
 	"time"
 )
 
@@ -293,7 +293,7 @@ recv from client : msgId= 1 , data= Ping...Ping...Ping...[FromClient]
 #### 开发者
 |  **Zinx**   | **开发者**  |
 |  ----  | ----  | 
-|[zinx](https://github.com/aceld/zinx)|刘丹冰([@aceld](https://github.com/aceld)) 张超([@zhngcho](https://github.com/zhngcho)) 高智辉Roger([@adsian](https://github.com/adsian)) 胡贵建([@huguijian](https://github.com/huguijian)) 张继瑀([@kstwoak](https://github.com/kstwoak)) 夏小力([@xxl6097](https://github.com/xxl6097)) 李志成([@clukboy](https://github.com/clukboy)）|
+|[zinx](https://github.com/zenus/zinx)|刘丹冰([@zenus](https://github.com/zenus)) 张超([@zhngcho](https://github.com/zhngcho)) 高智辉Roger([@adsian](https://github.com/adsian)) 胡贵建([@huguijian](https://github.com/huguijian)) 张继瑀([@kstwoak](https://github.com/kstwoak)) 夏小力([@xxl6097](https://github.com/xxl6097)) 李志成([@clukboy](https://github.com/clukboy)）|
 |[zinx(C++)](https://github.com/marklion/zinx) |刘洋([@marklion](https://github.com/marklion))|
 |[zinx(Lua)](https://github.com/huqitt/zinx-lua)|胡琪([@huqitt](https://github.com/huqitt))|
 |[ginx(Java)](https://github.com/ModuleCode/ginx)|ModuleCode([@ModuleCode](https://github.com/ModuleCode))|
@@ -303,8 +303,8 @@ recv from client : msgId= 1 , data= Ping...Ping...Ping...[FromClient]
 感谢所有为zinx贡献的开发者
 
 
-<a href="https://github.com/aceld/zinx/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=aceld/zinx" />
+<a href="https://github.com/zenus/zinx/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=zenus/zinx" />
 </a>    
 
 
@@ -317,10 +317,10 @@ recv from client : msgId= 1 , data= Ping...Ping...Ping...[FromClient]
 [danbing.at@gmail.com](mailto:danbing.at@gmail.com)
 
 `github`:
-[https://github.com/aceld](https://github.com/aceld)
+[https://github.com/zenus](https://github.com/zenus)
 
 `原创书籍`:
-[https://www.yuque.com/aceld](https://www.yuque.com/aceld)
+[https://www.yuque.com/zenus](https://www.yuque.com/zenus)
 
 ### Zinx技术讨论社区
 |  **微信群**   | **微信公众号**  | **QQ群资源分享**  |

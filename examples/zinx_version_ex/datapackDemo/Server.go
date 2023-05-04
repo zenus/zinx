@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/zpack"
+	"github.com/zenus/zinx/zpack"
 	"io"
 	"net"
 )
 
-//只是负责测试datapack拆包，封包功能
+// 只是负责测试datapack拆包，封包功能
 func main() {
 	//创建socket TCP Server
 	listener, err := net.Listen("tcp", "127.0.0.1:7777")

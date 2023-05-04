@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zinx_app_demo/mmo_game/pb"
-	"github.com/aceld/zinx/znet"
 	"github.com/golang/protobuf/proto"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zinx_app_demo/mmo_game/pb"
+	"github.com/zenus/zinx/znet"
 	"os"
 	"os/signal"
 	"time"
@@ -57,7 +57,7 @@ func business(conn ziface.IConnection) {
 
 func DoClientConnectedBegin(conn ziface.IConnection) {
 	conn.SetProperty("Name", "刘丹冰Aceld")
-	conn.SetProperty("Home", "https://yuque.com/aceld")
+	conn.SetProperty("Home", "https://yuque.com/zenus")
 
 	go business(conn)
 }

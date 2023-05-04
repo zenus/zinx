@@ -6,12 +6,12 @@ import (
 	"net"
 	"time"
 
-	"github.com/aceld/zinx/zconf"
-	"github.com/aceld/zinx/zdecoder"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zlog"
-	"github.com/aceld/zinx/zpack"
 	"github.com/gorilla/websocket"
+	"github.com/zenus/zinx/zconf"
+	"github.com/zenus/zinx/zdecoder"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
+	"github.com/zenus/zinx/zpack"
 )
 
 type Client struct {
@@ -105,7 +105,6 @@ func NewTLSClient(ip string, port int, opts ...ClientOption) ziface.IClient {
 
 	return c
 }
-
 
 // Start starts the client, sends requests and establishes a connection.
 // (重新启动客户端，发送请求且建立连接)

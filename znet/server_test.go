@@ -2,14 +2,14 @@ package znet
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/zpack"
+	"github.com/zenus/zinx/zpack"
 	"io"
 	"net"
 	"sync"
 	"testing"
 	"time"
 
-	"github.com/aceld/zinx/ziface"
+	"github.com/zenus/zinx/ziface"
 )
 
 // run in terminal:

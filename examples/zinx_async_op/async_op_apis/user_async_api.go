@@ -1,9 +1,9 @@
 package async_op_apis
 
 import (
-	"github.com/aceld/zinx/examples/zinx_async_op/db_model"
-	"github.com/aceld/zinx/zasync_op"
-	"github.com/aceld/zinx/ziface"
+	"github.com/zenus/zinx/examples/zinx_async_op/db_model"
+	"github.com/zenus/zinx/zasync_op"
+	"github.com/zenus/zinx/ziface"
 )
 
 func AsyncUserSaveData(request ziface.IRequest) *zasync_op.AsyncOpResult {

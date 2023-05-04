@@ -1,7 +1,7 @@
 package zpack
 
 import (
-	"github.com/aceld/zinx/ziface"
+	"github.com/zenus/zinx/ziface"
 	"sync"
 )
 
@@ -12,7 +12,7 @@ type pack_factory struct{}
 var factoryInstance *pack_factory
 
 /*
-	生成不同封包解包的方式，单例
+生成不同封包解包的方式，单例
 */
 func Factory() *pack_factory {
 	pack_once.Do(func() {
@@ -22,7 +22,7 @@ func Factory() *pack_factory {
 	return factoryInstance
 }
 
-//NewPack 创建一个具体的拆包解包对象
+// NewPack 创建一个具体的拆包解包对象
 func (f *pack_factory) NewPack(kind string) ziface.IDataPack {
 	var dataPack ziface.IDataPack
 

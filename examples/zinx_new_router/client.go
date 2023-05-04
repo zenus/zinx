@@ -2,14 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zpack"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zpack"
 	"io"
 	"net"
 	"time"
 )
 
-//模拟客户端
+// 模拟客户端
 func main() {
 
 	fmt.Println("Client Test ... start")

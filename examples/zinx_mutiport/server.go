@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/examples/zinx_server/s_router"
-	"github.com/aceld/zinx/zconf"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zlog"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/examples/zinx_server/s_router"
+	"github.com/zenus/zinx/zconf"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
+	"github.com/zenus/zinx/znet"
 	"os"
 	"os/signal"
 )
@@ -17,7 +17,7 @@ func DoConnectionBegin(conn ziface.IConnection) {
 
 	//设置两个链接属性，在连接创建之后
 	conn.SetProperty("Name", "Aceld")
-	conn.SetProperty("Home", "https://yuque.com/@aceld")
+	conn.SetProperty("Home", "https://yuque.com/@zenus")
 
 	err := conn.SendMsg(2, []byte("DoConnection BEGIN..."))
 	if err != nil {

@@ -2,7 +2,7 @@ package znet
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
+	"github.com/zenus/zinx/ziface"
 	"testing"
 )
 

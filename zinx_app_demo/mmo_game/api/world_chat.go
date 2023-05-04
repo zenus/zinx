@@ -3,14 +3,14 @@ package api
 import (
 	"fmt"
 
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zinx_app_demo/mmo_game/core"
-	"github.com/aceld/zinx/zinx_app_demo/mmo_game/pb"
-	"github.com/aceld/zinx/znet"
 	"github.com/golang/protobuf/proto"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zinx_app_demo/mmo_game/core"
+	"github.com/zenus/zinx/zinx_app_demo/mmo_game/pb"
+	"github.com/zenus/zinx/znet"
 )
 
-//世界聊天 路由业务
+// 世界聊天 路由业务
 type WorldChatApi struct {
 	znet.BaseRouter
 }

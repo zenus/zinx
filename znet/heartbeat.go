@@ -2,8 +2,8 @@ package znet
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zlog"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
 	"time"
 )
 
@@ -24,7 +24,7 @@ type HeartbeatChecker struct {
 }
 
 /*
-	收到remote心跳消息的默认回调路由业务
+收到remote心跳消息的默认回调路由业务
 */
 type HeatBeatDefaultRouter struct {
 	BaseRouter

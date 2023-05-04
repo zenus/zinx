@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/aceld/zinx/examples/zinx_async_op/router"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zlog"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/examples/zinx_async_op/router"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
+	"github.com/zenus/zinx/znet"
 )
 
 func OnConnectionAdd(conn ziface.IConnection) {

@@ -8,9 +8,9 @@ package zconf
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/aceld/zinx/zlog"
-	"github.com/aceld/zinx/zutils/commandline/args"
-	"github.com/aceld/zinx/zutils/commandline/uflag"
+	"github.com/zenus/zinx/zlog"
+	"github.com/zenus/zinx/zutils/commandline/args"
+	"github.com/zenus/zinx/zutils/commandline/uflag"
 	"io/ioutil"
 	"os"
 	"reflect"
@@ -24,10 +24,10 @@ const (
 )
 
 /*
-   Store all global parameters related to the Zinx framework for use by other modules.
-   Some parameters can also be configured by the user based on the zinx.json file.
-	(存储一切有关Zinx框架的全局参数，供其他模块使用
-	一些参数也可以通过 用户根据 zinx.json来配置)
+	   Store all global parameters related to the Zinx framework for use by other modules.
+	   Some parameters can also be configured by the user based on the zinx.json file.
+		(存储一切有关Zinx框架的全局参数，供其他模块使用
+		一些参数也可以通过 用户根据 zinx.json来配置)
 */
 type Config struct {
 	/*
@@ -100,7 +100,7 @@ type Config struct {
 }
 
 /*
-	Define a global object.(定义一个全局的对象)
+Define a global object.(定义一个全局的对象)
 */
 var GlobalObject *Config
 
@@ -176,7 +176,7 @@ func (g *Config) InitLogConfig() {
 }
 
 /*
-	init, set default value
+init, set default value
 */
 func init() {
 	pwd, err := os.Getwd()

@@ -51,7 +51,7 @@ package zdecoder
 import (
 	"bytes"
 	"encoding/binary"
-	"github.com/aceld/zinx/ziface"
+	"github.com/zenus/zinx/ziface"
 	"math"
 )
 

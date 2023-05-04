@@ -32,9 +32,9 @@
 `mail`:
 [danbing.at@gmail.com](mailto:danbing.at@gmail.com)
 `github`:
-[https://github.com/aceld](https://github.com/aceld)
+[https://github.com/zenus](https://github.com/zenus)
 `原创书籍gitbook`:
-[http://legacy.gitbook.com/@aceld](http://legacy.gitbook.com/@aceld)
+[http://legacy.gitbook.com/@zenus](http://legacy.gitbook.com/@zenus)
 
 ###Zinx技术讨论社区
 

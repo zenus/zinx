@@ -1,6 +1,6 @@
 package znet
 
-import "github.com/aceld/zinx/ziface"
+import "github.com/zenus/zinx/ziface"
 
 // RequestFunc 函数调用
 type RequestFunc struct {

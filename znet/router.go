@@ -1,7 +1,7 @@
 package znet
 
 import (
-	"github.com/aceld/zinx/ziface"
+	"github.com/zenus/zinx/ziface"
 	"strconv"
 	"sync"
 )

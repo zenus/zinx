@@ -1,15 +1,15 @@
 /*
-	Package zasync_op
-	@Author：14March
-	@File：async_op_result.go
+Package zasync_op
+@Author：14March
+@File：async_op_result.go
 */
 package zasync_op
 
 import (
 	"sync/atomic"
 
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/znet"
 )
 
 type AsyncOpResult struct {

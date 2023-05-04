@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/examples/zinx_client/c_router"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/zlog"
-	"github.com/aceld/zinx/znet"
+	"github.com/zenus/zinx/examples/zinx_client/c_router"
+	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
+	"github.com/zenus/zinx/znet"
 	"os"
 	"os/signal"
 	"time"
@@ -29,7 +29,7 @@ func DoClientConnectedBegin(conn ziface.IConnection) {
 	zlog.Debug("DoConnecionBegin is Called ... ")
 
 	conn.SetProperty("Name", "刘丹冰Aceld")
-	conn.SetProperty("Home", "https://yuque.com/aceld")
+	conn.SetProperty("Home", "https://yuque.com/zenus")
 
 	go business(conn)
 }
