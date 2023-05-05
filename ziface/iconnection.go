@@ -40,15 +40,15 @@ type IConnection interface {
 
 	// Send Message data directly to the remote TCP client (without buffering)
 	// 直接将Message数据发送数据给远程的TCP客户端(无缓冲)
-	SendMsg(msgID uint32, data []byte) error
+	//SendMsg(msgID uint32, data []byte) error
 
 	// Send Message data to the message queue to be sent to the remote TCP client later (with buffering)
 	// 直接将Message数据发送给远程的TCP客户端(有缓冲)
-	SendBuffMsg(msgID uint32, data []byte) error
+	//SendBuffMsg(msgID uint32, data []byte) error
 
 	SetProperty(key string, value interface{})   // Set connection property
 	GetProperty(key string) (interface{}, error) // Get connection property
 	RemoveProperty(key string)                   // Remove connection property
-	IsAlive() bool                               // Check if the current connection is alive(判断当前连接是否存活)
-	SetHeartBeat(checker IHeartbeatChecker)      // Set the heartbeat detector (设置心跳检测器)
+	//	IsAlive() bool                               // Check if the current connection is alive(判断当前连接是否存活)
+	//	SetHeartBeat(checker IHeartbeatChecker)      // Set the heartbeat detector (设置心跳检测器)
 }

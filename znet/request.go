@@ -59,12 +59,17 @@ func (r *Request) GetConnection() ziface.IConnection {
 
 // GetData 获取请求消息的数据
 func (r *Request) GetData() []byte {
-	return r.msg.GetData()
+	return r.msg.GetRawData()
 }
 
 // GetMsgID 获取请求的消息的ID
 func (r *Request) GetMsgID() uint32 {
 	return r.msg.GetMsgID()
+}
+
+// GetCmd 获取请求的消息的ID
+func (r *Request) GetCmd() string {
+	return r.msg.GetCmd()
 }
 
 func (r *Request) BindRouter(router ziface.IRouter) {

@@ -22,7 +22,7 @@ func DoConnectionBegin(conn ziface.IConnection) {
 	conn.SetProperty("Name", "Aceld")
 	conn.SetProperty("Home", "https://www.kancloud.cn/@zenus")
 
-	err := conn.SendMsg(2, []byte("DoConnection BEGIN..."))
+	err := conn.Send([]byte("DoConnection BEGIN..."))
 	if err != nil {
 		zlog.Error(err)
 	}
@@ -53,8 +53,8 @@ func main() {
 	s.SetOnConnStop(DoConnectionLost)
 
 	// Configure routing.
-	s.AddRouter(100, &s_router.PingRouter{})
-	s.AddRouter(1, &s_router.HelloZinxRouter{})
+	s.AddRouter("ping", &s_router.PingRouter{})
+	s.AddRouter("hello", &s_router.HelloZinxRouter{})
 
 	// Start Service
 	s.Serve()

@@ -2,7 +2,7 @@ package znet
 
 import (
 	"context"
-	"encoding/hex"
+	"encoding/json"
 	"errors"
 	"net"
 	"sync"
@@ -77,7 +77,7 @@ type Connection struct {
 
 	// Data packet packaging method
 	// (数据报文封包方式)
-	packet ziface.IDataPack
+	//	packet ziface.IDataPack
 
 	// Last activity time
 	// (最后一次活动时间)
@@ -89,7 +89,7 @@ type Connection struct {
 
 	// Heartbeat checker
 	// (心跳检测器)
-	hc ziface.IHeartbeatChecker
+	//	hc ziface.IHeartbeatChecker
 
 	// Connection name, default to be the same as the name of the Server/Client that created the connection
 	// (链接名称，默认与创建链接的Server/Client的Name一致)
@@ -120,13 +120,13 @@ func newServerConn(server ziface.IServer, conn net.Conn, connID uint64) ziface.I
 		remoteAddr:  conn.RemoteAddr().String(),
 	}
 
-	lengthField := server.GetLengthField()
-	if lengthField != nil {
-		c.frameDecoder = zinterceptor.NewFrameDecoder(*lengthField)
-	}
+	//lengthField := server.GetLengthField()
+	//if lengthField != nil {
+	//	c.frameDecoder = zinterceptor.NewFrameDecoder(*lengthField)
+	//}
 
 	// Inherited properties from server (从server继承过来的属性)
-	c.packet = server.GetPacket()
+	//	c.packet = server.GetPacket()
 	c.onConnStart = server.GetOnConnStart()
 	c.onConnStop = server.GetOnConnStop()
 	c.msgHandler = server.GetMsgHandler()
@@ -166,7 +166,7 @@ func newClientConn(client ziface.IClient, conn net.Conn) ziface.IConnection {
 	}
 
 	// Inherited properties from server (从client继承过来的属性)
-	c.packet = client.GetPacket()
+	//`c.packet = client.GetPacket()
 	c.onConnStart = client.GetOnConnStart()
 	c.onConnStop = client.GetOnConnStop()
 	c.msgHandler = client.GetMsgHandler()
@@ -224,15 +224,16 @@ func (c *Connection) StartReader() {
 			n, err := c.conn.Read(buffer)
 			if err != nil {
 				zlog.Ins().ErrorF("read msg head [read datalen=%d], error = %s", n, err)
-				return
+				//return
+				continue
 			}
-			zlog.Ins().DebugF("read buffer %s \n", hex.EncodeToString(buffer[0:n]))
+			zlog.Ins().DebugF("read buffer %s \n", string(buffer))
 
 			// If normal data is read from the peer, update the heartbeat detection Active state
 			// (正常读取到对端数据，更新心跳检测Active状态)
-			if n > 0 && c.hc != nil {
-				c.updateActivity()
-			}
+			//if n > 0 && c.hc != nil {
+			//	c.updateActivity()
+			//}
 
 			// Deal with the custom protocol fragmentation problem, added by uuxia 2023-03-21
 			// (处理自定义协议断粘包问题)
@@ -244,19 +245,24 @@ func (c *Connection) StartReader() {
 					continue
 				}
 				for _, bytes := range bufArrays {
-					zlog.Ins().DebugF("read buffer %s \n", hex.EncodeToString(bytes))
-					msg := zpack.NewMessage(uint32(len(bytes)), bytes)
+					zlog.Ins().DebugF("read buffer %s \n", string(bytes))
+					req := zpack.Message{}
+					if err := json.Unmarshal(bytes, &req); err != nil {
+						zlog.Ins().ErrorF("json decode %s, error = %s", string(bytes), err)
+						continue
+					}
+					msg := zpack.NewMessage(uint32(len(bytes)), req.Cmd, bytes)
+					// Get the current client's Request data
+					// (得到当前客户端请求的Request数据)
+					request := NewRequest(c, msg)
+					c.msgHandler.Execute(request)
+				}
+			} else {
+				/*	msg := zpack.NewMessage(uint32(n), buffer[0:n])
 					// Get the current client's Request data
 					// (得到当前客户端请求的Request数据)
 					req := NewRequest(c, msg)
-					c.msgHandler.Execute(req)
-				}
-			} else {
-				msg := zpack.NewMessage(uint32(n), buffer[0:n])
-				// Get the current client's Request data
-				// (得到当前客户端请求的Request数据)
-				req := NewRequest(c, msg)
-				c.msgHandler.Execute(req)
+					c.msgHandler.Execute(req)*/
 			}
 		}
 	}
@@ -277,10 +283,10 @@ func (c *Connection) Start() {
 	c.callOnConnStart()
 
 	// Start heartbeating detection
-	if c.hc != nil {
+	/*	if c.hc != nil {
 		c.hc.Start()
 		c.updateActivity()
-	}
+	}*/
 
 	// Start the Goroutine for reading data from the client
 	// (开启用户从客户端读取数据流程的Goroutine)
@@ -376,7 +382,7 @@ func (c *Connection) SendToQueue(data []byte) error {
 
 // SendMsg directly sends Message data to the remote TCP client.
 // (直接将Message数据发送数据给远程的TCP客户端)
-func (c *Connection) SendMsg(msgID uint32, data []byte) error {
+/*func (c *Connection) SendMsg(msgID uint32, data []byte) error {
 	c.msgLock.RLock()
 	defer c.msgLock.RUnlock()
 	if c.isClosed == true {
@@ -397,9 +403,9 @@ func (c *Connection) SendMsg(msgID uint32, data []byte) error {
 	}
 
 	return nil
-}
+}*/
 
-func (c *Connection) SendBuffMsg(msgID uint32, data []byte) error {
+/*func (c *Connection) SendBuffMsg(msgID uint32, data []byte) error {
 	c.msgLock.RLock()
 	defer c.msgLock.RUnlock()
 
@@ -432,7 +438,7 @@ func (c *Connection) SendBuffMsg(msgID uint32, data []byte) error {
 	case c.msgBuffChan <- msg:
 		return nil
 	}
-}
+}*/
 
 func (c *Connection) SetProperty(key string, value interface{}) {
 	c.propertyLock.Lock()
@@ -480,9 +486,9 @@ func (c *Connection) finalizer() {
 	}
 
 	// Stop the heartbeat detector associated with the connection
-	if c.hc != nil {
-		c.hc.Stop()
-	}
+	//if c.hc != nil {
+	//	c.hc.Stop()
+	//}
 
 	// Close the socket connection
 	_ = c.conn.Close()
@@ -520,23 +526,23 @@ func (c *Connection) callOnConnStop() {
 	}
 }
 
-func (c *Connection) IsAlive() bool {
-	if c.isClosed {
-		return false
-	}
-	// Check the last activity time of the connection. If it's beyond the heartbeat interval,
-	// then the connection is considered dead.
-	// (检查连接最后一次活动时间，如果超过心跳间隔，则认为连接已经死亡)
-	return time.Now().Sub(c.lastActivityTime) < zconf.GlobalObject.HeartbeatMaxDuration()
-}
+//func (c *Connection) IsAlive() bool {
+//	if c.isClosed {
+//		return false
+//	}
+//	// Check the last activity time of the connection. If it's beyond the heartbeat interval,
+//	// then the connection is considered dead.
+//	// (检查连接最后一次活动时间，如果超过心跳间隔，则认为连接已经死亡)
+//	return time.Now().Sub(c.lastActivityTime) < zconf.GlobalObject.HeartbeatMaxDuration()
+//}
 
-func (c *Connection) updateActivity() {
+/*func (c *Connection) updateActivity() {
 	c.lastActivityTime = time.Now()
-}
+}*/
 
-func (c *Connection) SetHeartBeat(checker ziface.IHeartbeatChecker) {
-	c.hc = checker
-}
+//func (c *Connection) SetHeartBeat(checker ziface.IHeartbeatChecker) {
+//	c.hc = checker
+//}
 
 func (c *Connection) LocalAddrString() string {
 	return c.localAddr

@@ -19,9 +19,9 @@ package ziface
 */
 type IMsgHandle interface {
 	//为消息添加具体的处理逻辑, msgID，支持整型，字符串
-	AddRouter(msgID uint32, router IRouter)
-	AddRouterSlices(msgId uint32, handler ...RouterHandler) IRouterSlices
-	Group(start, end uint32, Handlers ...RouterHandler) IGroupRouterSlices
+	AddRouter(cmd string, router IRouter)
+	AddRouterSlices(cmd string, handler ...RouterHandler) IRouterSlices
+	//Group(start, end uint32, Handlers ...RouterHandler) IGroupRouterSlices
 	Use(Handlers ...RouterHandler) IRouterSlices
 
 	StartWorkerPool()                    // 启动worker工作池

@@ -31,17 +31,18 @@ type IRouterSlices interface {
 	//添加全局组件
 	Use(Handlers ...RouterHandler)
 	//添加路由
-	AddHandler(msgId uint32, handlers ...RouterHandler)
+	AddHandler(cmd string, handlers ...RouterHandler)
 
 	//路由组管理
-	Group(start, end uint32, Handlers ...RouterHandler) IGroupRouterSlices
+	//	Group(start, end uint32, Handlers ...RouterHandler) IGroupRouterSlices
 	//获取处理方法集合
-	GetHandlers(MsgId uint32) ([]RouterHandler, bool)
+	GetHandlers(cmd string) ([]RouterHandler, bool)
 }
 
-type IGroupRouterSlices interface {
+/*type IGroupRouterSlices interface {
 	//添加全局组件
 	Use(Handlers ...RouterHandler)
 	//添加组路由组件
-	AddHandler(MsgId uint32, Handlers ...RouterHandler)
+	AddHandler(cmd string, Handlers ...RouterHandler)
 }
+*/

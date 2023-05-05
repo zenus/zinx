@@ -30,6 +30,7 @@ type IRequest interface {
 
 	GetData() []byte  //获取请求消息的数据
 	GetMsgID() uint32 //获取请求的消息ID
+	GetCmd() string   //获取请求的消息ID
 
 	GetMessage() IMessage //获取请求消息的原始数据 add by uuxia 2023-03-10
 
@@ -54,6 +55,7 @@ type BaseRequest struct {
 func (br *BaseRequest) GetConnection() IConnection       { return nil }
 func (br *BaseRequest) GetData() []byte                  { return nil }
 func (br *BaseRequest) GetMsgID() uint32                 { return 0 }
+func (br *BaseRequest) GetCmd() string                   { return "" }
 func (br *BaseRequest) GetMessage() IMessage             { return nil }
 func (br *BaseRequest) GetResponse() IcResp              { return nil }
 func (br *BaseRequest) SetResponse(resp IcResp)          {}

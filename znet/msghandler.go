@@ -21,7 +21,7 @@ const (
 
 // MsgHandle 对消息的处理回调模块
 type MsgHandle struct {
-	Apis           map[uint32]ziface.IRouter // 存放每个MsgID 所对应的处理方法的map属性
+	Apis           map[string]ziface.IRouter // 存放每个MsgID 所对应的处理方法的map属性
 	WorkerPoolSize uint32                    // 业务工作Worker池的数量
 	TaskQueue      []chan ziface.IRequest    // Worker负责取任务的消息队列
 	builder        *chainBuilder             // 责任链构造器
@@ -32,7 +32,7 @@ type MsgHandle struct {
 // zinxRole: IServer/IClient
 func newMsgHandle() *MsgHandle {
 	handle := &MsgHandle{
-		Apis:           make(map[uint32]ziface.IRouter),
+		Apis:           make(map[string]ziface.IRouter),
 		RouterSlices:   NewRouterSlices(),
 		WorkerPoolSize: zconf.GlobalObject.WorkerPoolSize,
 		// 一个worker对应一个queue
@@ -93,15 +93,15 @@ func (mh *MsgHandle) SendMsgToTaskQueue(request ziface.IRequest) {
 	zlog.Ins().DebugF("SendMsgToTaskQueue-->%s", hex.EncodeToString(request.GetData()))
 }
 
-func (mh *MsgHandle) StatisticsMetrics(request ziface.IRequest, workerId int, msgId uint32, timeNow time.Time) {
+func (mh *MsgHandle) StatisticsMetrics(request ziface.IRequest, workerId int, cmd string, timeNow time.Time) {
 
 	conn := request.GetConnection()
 
 	//统计MsgID被调度的路由次数
-	zmetrics.Metrics().IncRouterSchedule(conn.LocalAddrString(), conn.GetName(), strconv.Itoa(workerId), strconv.Itoa(int(msgId)))
+	zmetrics.Metrics().IncRouterSchedule(conn.LocalAddrString(), conn.GetName(), strconv.Itoa(workerId), cmd)
 
 	//统计Router和MsgID业务调度的耗时
-	zmetrics.Metrics().ObserveRouterScheduleDuration(conn.LocalAddrString(), conn.GetName(), strconv.Itoa(workerId), strconv.Itoa(int(msgId)), time.Since(timeNow))
+	zmetrics.Metrics().ObserveRouterScheduleDuration(conn.LocalAddrString(), conn.GetName(), strconv.Itoa(workerId), cmd, time.Since(timeNow))
 }
 
 // doFuncHandler 执行函数式请求
@@ -129,11 +129,11 @@ func (mh *MsgHandle) doMsgHandler(request ziface.IRequest, workerID int) {
 		timeNow = time.Now()
 	}
 
-	msgId := request.GetMsgID()
-	handler, ok := mh.Apis[msgId]
+	cmd := request.GetCmd()
+	handler, ok := mh.Apis[cmd]
 
 	if !ok {
-		zlog.Ins().ErrorF("api msgID = %d is not FOUND!", request.GetMsgID())
+		zlog.Ins().ErrorF("api msgID = %d is not FOUND!", request.GetCmd())
 		return
 	}
 
@@ -143,7 +143,7 @@ func (mh *MsgHandle) doMsgHandler(request ziface.IRequest, workerID int) {
 	request.Call()
 
 	//统计Router调度指标数据
-	mh.StatisticsMetrics(request, workerID, msgId, timeNow)
+	mh.StatisticsMetrics(request, workerID, cmd, timeNow)
 }
 
 func (mh *MsgHandle) Execute(request ziface.IRequest) {
@@ -151,27 +151,28 @@ func (mh *MsgHandle) Execute(request ziface.IRequest) {
 }
 
 // AddRouter 为消息添加具体的处理逻辑
-func (mh *MsgHandle) AddRouter(msgID uint32, router ziface.IRouter) {
+func (mh *MsgHandle) AddRouter(cmd string, router ziface.IRouter) {
 	// 1 判断当前msg绑定的API处理方法是否已经存在
-	if _, ok := mh.Apis[msgID]; ok {
-		msgErr := fmt.Sprintf("repeated api , msgID = %+v\n", msgID)
+	if _, ok := mh.Apis[cmd]; ok {
+		msgErr := fmt.Sprintf("repeated api , msgID = %+v\n", cmd)
 		panic(msgErr)
 	}
 	// 2 添加msg与api的绑定关系
-	mh.Apis[msgID] = router
-	zlog.Ins().InfoF("Add Router msgID = %d", msgID)
+	mh.Apis[cmd] = router
+	zlog.Ins().InfoF("Add Router msgID = %d", cmd)
 }
 
 // 切片路由添加
-func (mh *MsgHandle) AddRouterSlices(msgId uint32, handler ...ziface.RouterHandler) ziface.IRouterSlices {
-	mh.RouterSlices.AddHandler(msgId, handler...)
+func (mh *MsgHandle) AddRouterSlices(cmd string, handler ...ziface.RouterHandler) ziface.IRouterSlices {
+	mh.RouterSlices.AddHandler(cmd, handler...)
 	return mh.RouterSlices
 }
 
 // 路由分组
-func (mh *MsgHandle) Group(start, end uint32, Handlers ...ziface.RouterHandler) ziface.IGroupRouterSlices {
-	return NewGroup(start, end, mh.RouterSlices, Handlers...)
-}
+//
+//	func (mh *MsgHandle) Group(start, end uint32, Handlers ...ziface.RouterHandler) ziface.IGroupRouterSlices {
+//		return NewGroup(start, end, mh.RouterSlices, Handlers...)
+//	}
 func (mh *MsgHandle) Use(Handlers ...ziface.RouterHandler) ziface.IRouterSlices {
 	mh.RouterSlices.Use(Handlers...)
 	return mh.RouterSlices
@@ -189,8 +190,8 @@ func (mh *MsgHandle) doMsgHandlerSlices(request ziface.IRequest, workerID int) {
 		timeNow = time.Now()
 	}
 
-	msgId := request.GetMsgID()
-	handlers, ok := mh.RouterSlices.GetHandlers(msgId)
+	cmd := request.GetCmd()
+	handlers, ok := mh.RouterSlices.GetHandlers(cmd)
 	if !ok {
 		zlog.Ins().ErrorF("api msgID = %d is not FOUND!", request.GetMsgID())
 		return
@@ -200,7 +201,7 @@ func (mh *MsgHandle) doMsgHandlerSlices(request ziface.IRequest, workerID int) {
 	request.RouterSlicesNext()
 
 	//统计MsgID被调度的路由次数
-	mh.StatisticsMetrics(request, workerID, msgId, timeNow)
+	mh.StatisticsMetrics(request, workerID, cmd, timeNow)
 }
 
 // StartOneWorker 启动一个Worker工作流程
