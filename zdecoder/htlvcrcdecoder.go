@@ -123,7 +123,7 @@ func (hcd *HtlvCrcDecoder) Intercept(chain ziface.IChain) ziface.IcResp {
 	}
 
 	//2. Get Data
-	data := iMessage.GetData()
+	data := iMessage.GetRawData()
 	//zlog.Ins().DebugF("HTLVCRC-RawData size:%d data:%s\n", len(data), hex.EncodeToString(data))
 
 	//3. If the amount of data read is less than the length of the header, proceed to the next layer directly.

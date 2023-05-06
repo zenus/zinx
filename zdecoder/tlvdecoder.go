@@ -119,7 +119,7 @@ func (tlv *TLVDecoder) Intercept(chain ziface.IChain) ziface.IcResp {
 	}
 
 	//2. Get Data
-	data := iMessage.GetData()
+	data := iMessage.GetRawData()
 	//zlog.Ins().DebugF("TLV-RawData size:%d data:%s\n", len(data), hex.EncodeToString(data))
 
 	//3. If the amount of data read is less than the length of the header, proceed to the next layer directly.
@@ -134,7 +134,6 @@ func (tlv *TLVDecoder) Intercept(chain ziface.IChain) ziface.IcResp {
 	//5. Set the decoded data back to the IMessage, the Zinx Router needs MsgID for addressing
 	// (将解码后的数据重新设置到IMessage中, Zinx的Router需要MsgID来寻址)
 	iMessage.SetMsgID(tlvData.Tag)
-	iMessage.SetData(tlvData.Value)
 	iMessage.SetDataLen(tlvData.Length)
 
 	//6. Pass the decoded data to the next layer.

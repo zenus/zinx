@@ -119,7 +119,7 @@ func (ltv *LTV_Little_Decoder) Intercept(chain ziface.IChain) ziface.IcResp {
 	}
 
 	//2. Get Data
-	data := iMessage.GetData()
+	data := iMessage.GetRawData()
 	//zlog.Ins().DebugF("LTV-RawData size:%d data:%s\n", len(data), hex.EncodeToString(data))
 
 	//3. If the amount of data read is less than the length of the header, proceed to the next layer directly.
@@ -135,7 +135,6 @@ func (ltv *LTV_Little_Decoder) Intercept(chain ziface.IChain) ziface.IcResp {
 	// (将解码后的数据重新设置到IMessage中, Zinx的Router需要MsgID来寻址)
 	iMessage.SetDataLen(ltvData.Length)
 	iMessage.SetMsgID(ltvData.Tag)
-	iMessage.SetData(ltvData.Value)
 
 	//6. Pass the decoded data to the next layer.
 	// (将解码后的数据进入下一层)
