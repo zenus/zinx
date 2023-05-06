@@ -199,7 +199,7 @@ func init() {
 	GlobalObject = &Config{
 		Name:                    "ZinxServerApp",
 		Version:                 "V1.0",
-		TCPPort:                 8999,
+		TCPPort:                 6666,
 		WsPort:                  9000,
 		Host:                    "0.0.0.0",
 		MaxConn:                 12000,

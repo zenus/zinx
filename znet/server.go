@@ -93,43 +93,43 @@ func NewServer() ziface.IServer {
 }
 
 // NewServer 创建一个服务器句柄
-//func NewUserConfServer(config *zconf.Config, opts ...Option) ziface.IServer {
-//
-//	//刷新用户配置到全局配置变量
-//	zconf.UserConfToGlobal(config)
-//
-//	//提示当前配置信息
-//	zconf.GlobalObject.Show()
-//
-//	//打印logo
-//	logo.PrintLogo()
-//
-//	s := &Server{
-//		Name:             config.Name,
-//		IPVersion:        "tcp4",
-//		IP:               config.Host,
-//		Port:             config.TCPPort,
-//		WsPort:           config.WsPort,
-//		msgHandler:       newMsgHandle(),
-//		RouterSlicesMode: config.RouterSlicesMode,
-//		ConnMgr:          newConnManager(),
-//		exitChan:         nil,
-//		//	packet:           zpack.Factory().NewPack(ziface.ZinxDataPack),
-//		//	decoder:          zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
-//		upgrader: &websocket.Upgrader{
-//			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
-//			CheckOrigin: func(r *http.Request) bool {
-//				return true
-//			},
-//		},
-//	}
-//	//更替打包方式
-//	for _, opt := range opts {
-//		opt(s)
-//	}
-//
-//	return s
-//}
+func NewUserConfServer(config *zconf.Config) ziface.IServer {
+
+	//刷新用户配置到全局配置变量
+	zconf.UserConfToGlobal(config)
+
+	//提示当前配置信息
+	zconf.GlobalObject.Show()
+
+	//打印logo
+	logo.PrintLogo()
+
+	s := &Server{
+		Name:             config.Name,
+		IPVersion:        "tcp",
+		IP:               config.Host,
+		Port:             config.TCPPort,
+		WsPort:           config.WsPort,
+		msgHandler:       newMsgHandle(),
+		RouterSlicesMode: config.RouterSlicesMode,
+		ConnMgr:          newConnManager(),
+		exitChan:         nil,
+		//	packet:           zpack.Factory().NewPack(ziface.ZinxDataPack),
+		//	decoder:          zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
+		//		upgrader: &websocket.Upgrader{
+		//			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
+		//			CheckOrigin: func(r *http.Request) bool {
+		//				return true
+		//			},
+		//		},
+	}
+	//	//更替打包方式
+	//	for _, opt := range opts {
+	//		opt(s)
+	//	}
+	//
+	return s
+}
 
 // NewDefaultRouterSlicesServer 创建一个默认自带一个Recover处理器的服务器句柄
 //func NewDefaultRouterSlicesServer(opts ...Option) ziface.IServer {
