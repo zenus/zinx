@@ -8,6 +8,7 @@ import (
 
 const (
 	SEP = '#'
+	BEP = '*'
 )
 
 type JsonDecoder struct {
@@ -34,7 +35,9 @@ func (d *JsonDecoder) decode(buf []byte) []byte {
 		if b == SEP {
 			break
 		}
-		buff = append(buff, b)
+		if b != BEP {
+			buff = append(buff, b)
+		}
 	}
 	return buff
 }
@@ -52,7 +55,7 @@ func (d *JsonDecoder) Decode(buff []byte) [][]byte {
 		if arr != nil {
 			//证明已经解析出一个完整包
 			resp = append(resp, arr)
-			_size := len(arr) + 1
+			_size := len(arr) + 3
 			//_len := len(this.in)
 			//fmt.Println(_len)
 			if _size > 0 {
