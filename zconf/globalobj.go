@@ -208,7 +208,7 @@ func init() {
 		MaxWorkerTaskLen:        1024,
 		MaxMsgChanLen:           1024,
 		LogDir:                  pwd + "/log",
-		LogFile:                 "", //if set "", print to Stderr(默认日志文件为空，打印到stderr)
+		LogFile:                 "zinx.log", //if set "", print to Stderr(默认日志文件为空，打印到stderr)
 		LogIsolationLevel:       0,
 		HeartbeatMax:            10, //The default maximum interval for heartbeat detection is 10 seconds. (默认心跳检测最长间隔为10秒)
 		IOReadBuffSize:          1024,
