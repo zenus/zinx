@@ -6,7 +6,7 @@ type IFrameDecoder interface {
 	Decode(buff []byte) [][]byte
 }
 
-//ILengthField 具备的基础属性
+// ILengthField 具备的基础属性
 type LengthField struct {
 	/*
 		Note:

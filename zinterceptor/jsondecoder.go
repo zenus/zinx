@@ -2,6 +2,7 @@ package zinterceptor
 
 import (
 	"bytes"
+	"github.com/zenus/zinx/ziface"
 	"sync"
 )
 
@@ -12,6 +13,10 @@ const (
 type JsonDecoder struct {
 	lock sync.Mutex
 	in   []byte
+}
+
+func NewJsonDecoder() ziface.IFrameDecoder {
+	return new(JsonDecoder)
 }
 
 func (d *JsonDecoder) decode(buf []byte) []byte {

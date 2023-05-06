@@ -122,7 +122,7 @@ func newServerConn(server ziface.IServer, conn net.Conn, connID uint64) ziface.I
 
 	//lengthField := server.GetLengthField()
 	//if lengthField != nil {
-	//	c.frameDecoder = zinterceptor.NewFrameDecoder(*lengthField)
+	c.frameDecoder = zinterceptor.NewJsonDecoder()
 	//}
 
 	// Inherited properties from server (从server继承过来的属性)
@@ -160,10 +160,10 @@ func newClientConn(client ziface.IClient, conn net.Conn) ziface.IConnection {
 		remoteAddr:  conn.RemoteAddr().String(),
 	}
 
-	lengthField := client.GetLengthField()
-	if lengthField != nil {
-		c.frameDecoder = zinterceptor.NewFrameDecoder(*lengthField)
-	}
+	//lengthField := client.GetLengthField()
+	//if lengthField != nil {
+	//	c.frameDecoder = zinterceptor.NewFrameDecoder(*lengthField)
+	//}
 
 	// Inherited properties from server (从client继承过来的属性)
 	//`c.packet = client.GetPacket()
@@ -227,7 +227,7 @@ func (c *Connection) StartReader() {
 				//return
 				continue
 			}
-			zlog.Ins().DebugF("read buffer %s \n", string(buffer))
+			//zlog.Ins().DebugF("read buffer %s \n", string(buffer))
 
 			// If normal data is read from the peer, update the heartbeat detection Active state
 			// (正常读取到对端数据，更新心跳检测Active状态)
