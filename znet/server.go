@@ -5,14 +5,12 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"github.com/gorilla/websocket"
 	"github.com/zenus/zinx/logo"
 	"github.com/zenus/zinx/zconf"
 	//"github.com/zenus/zinx/zdecoder"
 	"github.com/zenus/zinx/zlog"
 	"github.com/zenus/zinx/zmetrics"
 	"net"
-	"net/http"
 	"os"
 	"os/signal"
 	"sync/atomic"
@@ -54,15 +52,15 @@ type Server struct {
 	//	hc ziface.IHeartbeatChecker
 
 	// websocket
-	upgrader *websocket.Upgrader
+	//	upgrader *websocket.Upgrader
 	// websocket 连接认证
-	websocketAuth func(r *http.Request) error
+	//	websocketAuth func(r *http.Request) error
 	// connection id
 	cID uint64
 }
 
 // NewServer 创建一个服务器句柄
-func NewServer(opts ...Option) ziface.IServer {
+func NewServer() ziface.IServer {
 	logo.PrintLogo()
 
 	s := &Server{
@@ -78,16 +76,14 @@ func NewServer(opts ...Option) ziface.IServer {
 		//默认使用zinx的TLV封包方式
 		//	packet:  zpack.Factory().NewPack(ziface.JsonDataPack),
 		//decoder: zdecoder.NewJsonDecoder(), //默认使用TLV的解码方式
-		upgrader: &websocket.Upgrader{
-			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
-			CheckOrigin: func(r *http.Request) bool {
-				return true
+		/*
+			upgrader: &websocket.Upgrader{
+				ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
+				CheckOrigin: func(r *http.Request) bool {
+					return true
+				},
 			},
-		},
-	}
-
-	for _, opt := range opts {
-		opt(s)
+		*/
 	}
 
 	//提示当前配置信息
@@ -97,121 +93,121 @@ func NewServer(opts ...Option) ziface.IServer {
 }
 
 // NewServer 创建一个服务器句柄
-func NewUserConfServer(config *zconf.Config, opts ...Option) ziface.IServer {
-
-	//刷新用户配置到全局配置变量
-	zconf.UserConfToGlobal(config)
-
-	//提示当前配置信息
-	zconf.GlobalObject.Show()
-
-	//打印logo
-	logo.PrintLogo()
-
-	s := &Server{
-		Name:             config.Name,
-		IPVersion:        "tcp4",
-		IP:               config.Host,
-		Port:             config.TCPPort,
-		WsPort:           config.WsPort,
-		msgHandler:       newMsgHandle(),
-		RouterSlicesMode: config.RouterSlicesMode,
-		ConnMgr:          newConnManager(),
-		exitChan:         nil,
-		//	packet:           zpack.Factory().NewPack(ziface.ZinxDataPack),
-		//	decoder:          zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
-		upgrader: &websocket.Upgrader{
-			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
-			CheckOrigin: func(r *http.Request) bool {
-				return true
-			},
-		},
-	}
-	//更替打包方式
-	for _, opt := range opts {
-		opt(s)
-	}
-
-	return s
-}
+//func NewUserConfServer(config *zconf.Config, opts ...Option) ziface.IServer {
+//
+//	//刷新用户配置到全局配置变量
+//	zconf.UserConfToGlobal(config)
+//
+//	//提示当前配置信息
+//	zconf.GlobalObject.Show()
+//
+//	//打印logo
+//	logo.PrintLogo()
+//
+//	s := &Server{
+//		Name:             config.Name,
+//		IPVersion:        "tcp4",
+//		IP:               config.Host,
+//		Port:             config.TCPPort,
+//		WsPort:           config.WsPort,
+//		msgHandler:       newMsgHandle(),
+//		RouterSlicesMode: config.RouterSlicesMode,
+//		ConnMgr:          newConnManager(),
+//		exitChan:         nil,
+//		//	packet:           zpack.Factory().NewPack(ziface.ZinxDataPack),
+//		//	decoder:          zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
+//		upgrader: &websocket.Upgrader{
+//			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
+//			CheckOrigin: func(r *http.Request) bool {
+//				return true
+//			},
+//		},
+//	}
+//	//更替打包方式
+//	for _, opt := range opts {
+//		opt(s)
+//	}
+//
+//	return s
+//}
 
 // NewDefaultRouterSlicesServer 创建一个默认自带一个Recover处理器的服务器句柄
-func NewDefaultRouterSlicesServer(opts ...Option) ziface.IServer {
-	logo.PrintLogo()
-	zconf.GlobalObject.RouterSlicesMode = true
-	s := &Server{
-		Name:             zconf.GlobalObject.Name,
-		IPVersion:        "tcp",
-		IP:               zconf.GlobalObject.Host,
-		Port:             zconf.GlobalObject.TCPPort,
-		WsPort:           zconf.GlobalObject.WsPort,
-		msgHandler:       newMsgHandle(),
-		RouterSlicesMode: zconf.GlobalObject.RouterSlicesMode,
-		ConnMgr:          newConnManager(),
-		exitChan:         nil,
-		//默认使用zinx的TLV封包方式
-		//	packet:  zpack.Factory().NewPack(ziface.ZinxDataPack),
-		//	decoder: zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
-		upgrader: &websocket.Upgrader{
-			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
-			CheckOrigin: func(r *http.Request) bool {
-				return true
-			},
-		},
-	}
-
-	for _, opt := range opts {
-		opt(s)
-	}
-	s.Use(RouterRecovery)
-	//提示当前配置信息
-	zconf.GlobalObject.Show()
-
-	return s
-}
+//func NewDefaultRouterSlicesServer(opts ...Option) ziface.IServer {
+//	logo.PrintLogo()
+//	zconf.GlobalObject.RouterSlicesMode = true
+//	s := &Server{
+//		Name:             zconf.GlobalObject.Name,
+//		IPVersion:        "tcp",
+//		IP:               zconf.GlobalObject.Host,
+//		Port:             zconf.GlobalObject.TCPPort,
+//		WsPort:           zconf.GlobalObject.WsPort,
+//		msgHandler:       newMsgHandle(),
+//		RouterSlicesMode: zconf.GlobalObject.RouterSlicesMode,
+//		ConnMgr:          newConnManager(),
+//		exitChan:         nil,
+//		//默认使用zinx的TLV封包方式
+//		//	packet:  zpack.Factory().NewPack(ziface.ZinxDataPack),
+//		//	decoder: zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
+//		upgrader: &websocket.Upgrader{
+//			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
+//			CheckOrigin: func(r *http.Request) bool {
+//				return true
+//			},
+//		},
+//	}
+//
+//	for _, opt := range opts {
+//		opt(s)
+//	}
+//	s.Use(RouterRecovery)
+//	//提示当前配置信息
+//	zconf.GlobalObject.Show()
+//
+//	return s
+//}
 
 // NewUserRouterSlicesServer 创建一个用户配置的自带一个Recover处理器的服务器句柄，如果用户不希望Use这个方法，那么应该使用NewUserConfServer
-func NewUserConfDefaultRouterSlicesServer(config *zconf.Config, opts ...Option) ziface.IServer {
-
-	if !config.RouterSlicesMode {
-		panic("RouterSlicesMode is false")
-	}
-
-	//刷新用户配置到全局配置变量
-	zconf.UserConfToGlobal(config)
-
-	//提示当前配置信息
-	zconf.GlobalObject.Show()
-
-	//打印logo
-	logo.PrintLogo()
-
-	s := &Server{
-		Name:             config.Name,
-		IPVersion:        "tcp4",
-		IP:               config.Host,
-		Port:             config.TCPPort,
-		WsPort:           config.WsPort,
-		msgHandler:       newMsgHandle(),
-		RouterSlicesMode: config.RouterSlicesMode,
-		ConnMgr:          newConnManager(),
-		exitChan:         nil,
-		//	packet:           zpack.Factory().NewPack(ziface.ZinxDataPack),
-		//	decoder:          zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
-		upgrader: &websocket.Upgrader{
-			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
-			CheckOrigin: func(r *http.Request) bool {
-				return true
-			},
-		},
-	}
-	//更替打包方式
-	for _, opt := range opts {
-		opt(s)
-	}
-	s.Use(RouterRecovery)
-	return s
-}
+//func NewUserConfDefaultRouterSlicesServer(config *zconf.Config, opts ...Option) ziface.IServer {
+//
+//	if !config.RouterSlicesMode {
+//		panic("RouterSlicesMode is false")
+//	}
+//
+//	//刷新用户配置到全局配置变量
+//	zconf.UserConfToGlobal(config)
+//
+//	//提示当前配置信息
+//	zconf.GlobalObject.Show()
+//
+//	//打印logo
+//	logo.PrintLogo()
+//
+//	s := &Server{
+//		Name:             config.Name,
+//		IPVersion:        "tcp4",
+//		IP:               config.Host,
+//		Port:             config.TCPPort,
+//		WsPort:           config.WsPort,
+//		msgHandler:       newMsgHandle(),
+//		RouterSlicesMode: config.RouterSlicesMode,
+//		ConnMgr:          newConnManager(),
+//		exitChan:         nil,
+//		//	packet:           zpack.Factory().NewPack(ziface.ZinxDataPack),
+//		//	decoder:          zdecoder.NewTLVDecoder(), //默认使用TLV的解码方式
+//		upgrader: &websocket.Upgrader{
+//			ReadBufferSize: int(zconf.GlobalObject.IOReadBuffSize),
+//			CheckOrigin: func(r *http.Request) bool {
+//				return true
+//			},
+//		},
+//	}
+//	//更替打包方式
+//	for _, opt := range opts {
+//		opt(s)
+//	}
+//	s.Use(RouterRecovery)
+//	return s
+//}
 
 // ============== 实现 ziface.IServer 里的全部接口方法 ========
 func (s *Server) StartConn(conn ziface.IConnection) {
@@ -301,50 +297,50 @@ func (s *Server) ListenTcpConn() {
 	}
 }
 
-func (s *Server) ListenWebsocketConn() {
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		//1. 设置服务器最大连接控制,如果超过最大连接，则等待
-		if s.ConnMgr.Len() >= zconf.GlobalObject.MaxConn {
-			zlog.Ins().InfoF("Exceeded the maxConnNum:%d, Wait:%d", zconf.GlobalObject.MaxConn, AcceptDelay.duration)
-			AcceptDelay.Delay()
-			return
-		}
-		// 2. 如果需要 websocket 认证请设置认证信息
-		if s.websocketAuth != nil {
-			err := s.websocketAuth(r)
-			if err != nil {
-				zlog.Ins().ErrorF(" websocket auth err:%v", err)
-				w.WriteHeader(401)
-				AcceptDelay.Delay()
-				return
-			}
-
-		}
-		// 判断 header 里面是有子协议
-		if len(r.Header.Get("Sec-Websocket-Protocol")) > 0 {
-			s.upgrader.Subprotocols = websocket.Subprotocols(r)
-		}
-		// 4. 升级成 websocket 连接
-		conn, err := s.upgrader.Upgrade(w, r, nil)
-		if err != nil {
-			zlog.Ins().ErrorF("new websocket err:%v", err)
-			w.WriteHeader(500)
-			AcceptDelay.Delay()
-			return
-		}
-		// 5. 处理该新连接请求的 业务 方法， 此时应该有 handler 和 conn是绑定的
-		newCid := atomic.AddUint64(&s.cID, 1)
-		wsConn := newWebsocketConn(s, conn, newCid)
-		go s.StartConn(wsConn)
-
-	})
-
-	err := http.ListenAndServe(fmt.Sprintf("%s:%d", s.IP, s.WsPort), nil)
-	if err != nil {
-		panic(err)
-	}
-}
+//func (s *Server) ListenWebsocketConn() {
+//
+//	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+//		//1. 设置服务器最大连接控制,如果超过最大连接，则等待
+//		if s.ConnMgr.Len() >= zconf.GlobalObject.MaxConn {
+//			zlog.Ins().InfoF("Exceeded the maxConnNum:%d, Wait:%d", zconf.GlobalObject.MaxConn, AcceptDelay.duration)
+//			AcceptDelay.Delay()
+//			return
+//		}
+//		// 2. 如果需要 websocket 认证请设置认证信息
+//		if s.websocketAuth != nil {
+//			err := s.websocketAuth(r)
+//			if err != nil {
+//				zlog.Ins().ErrorF(" websocket auth err:%v", err)
+//				w.WriteHeader(401)
+//				AcceptDelay.Delay()
+//				return
+//			}
+//
+//		}
+//		// 判断 header 里面是有子协议
+//		if len(r.Header.Get("Sec-Websocket-Protocol")) > 0 {
+//			s.upgrader.Subprotocols = websocket.Subprotocols(r)
+//		}
+//		// 4. 升级成 websocket 连接
+//		conn, err := s.upgrader.Upgrade(w, r, nil)
+//		if err != nil {
+//			zlog.Ins().ErrorF("new websocket err:%v", err)
+//			w.WriteHeader(500)
+//			AcceptDelay.Delay()
+//			return
+//		}
+//		// 5. 处理该新连接请求的 业务 方法， 此时应该有 handler 和 conn是绑定的
+//		newCid := atomic.AddUint64(&s.cID, 1)
+//		wsConn := newWebsocketConn(s, conn, newCid)
+//		go s.StartConn(wsConn)
+//
+//	})
+//
+//	err := http.ListenAndServe(fmt.Sprintf("%s:%d", s.IP, s.WsPort), nil)
+//	if err != nil {
+//		panic(err)
+//	}
+//}
 
 // Start 开启网络服务
 func (s *Server) Start() {
@@ -363,10 +359,10 @@ func (s *Server) Start() {
 	case zconf.ServerModeTcp:
 		go s.ListenTcpConn()
 	case zconf.ServerModeWebsocket:
-		go s.ListenWebsocketConn()
+		//go s.ListenWebsocketConn()
 	default:
 		go s.ListenTcpConn()
-		go s.ListenWebsocketConn()
+		//go s.ListenWebsocketConn()
 	}
 
 	// Prometheus Metrics 指标统计指标初始化
@@ -515,9 +511,9 @@ func (s *Server) AddInterceptor(interceptor ziface.IInterceptor) {
 	s.msgHandler.AddInterceptor(interceptor)
 }
 
-func (s *Server) SetWebsocketAuth(f func(r *http.Request) error) {
-	s.websocketAuth = f
-}
+//func (s *Server) SetWebsocketAuth(f func(r *http.Request) error) {
+//	s.websocketAuth = f
+//}
 
 func (s *Server) ServerName() string {
 	return s.Name

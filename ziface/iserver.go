@@ -14,10 +14,6 @@
 // @Author  Aceld - Thu Mar 11 10:32:29 CST 2019
 package ziface
 
-import (
-	"net/http"
-)
-
 // 定义服务接口
 type IServer interface {
 	Start()                                                            //启动服务器方法
@@ -41,6 +37,6 @@ type IServer interface {
 	//	GetLengthField() *LengthField
 	//	SetDecoder(IDecoder)
 	AddInterceptor(IInterceptor)
-	SetWebsocketAuth(func(r *http.Request) error) // 添加websocket认证方法
-	ServerName() string                           // 获取服务器名称
+	//	SetWebsocketAuth(func(r *http.Request) error) // 添加websocket认证方法
+	ServerName() string // 获取服务器名称
 }
