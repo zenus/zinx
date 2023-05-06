@@ -34,11 +34,6 @@ func (f *pack_factory) NewPack(kind string) ziface.IDataPack {
 	case ziface.ZinxDataPackOld:
 		dataPack = NewDataPackLtv()
 		break
-
-	case ziface.JsonDataPack:
-		dataPack = NewJsonPack()
-		break
-
 		//case 自定义封包拆包方式case
 
 	default:
