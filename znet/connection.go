@@ -223,7 +223,7 @@ func (c *Connection) StartReader() {
 			// (从conn的IO中读取数据到内存缓冲buffer中)
 			n, err := c.conn.Read(buffer)
 			if err != nil {
-				zlog.Ins().ErrorF("read msg head [read datalen=%d], error = %s", n, err)
+				//zlog.Ins().ErrorF("read msg head [read datalen=%d], error = %s", n, err)
 				//return
 				continue
 			}
