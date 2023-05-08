@@ -3,6 +3,7 @@ package zinterceptor
 import (
 	"bytes"
 	"github.com/zenus/zinx/ziface"
+	"github.com/zenus/zinx/zlog"
 	"sync"
 )
 
@@ -59,7 +60,9 @@ func (d *JsonDecoder) Decode(buff []byte) [][]byte {
 			//_len := len(this.in)
 			//fmt.Println(_len)
 			if _size > 0 {
+				zlog.Ins().DebugF("read before %s \n", string(d.in))
 				d.in = d.in[_size:]
+				zlog.Ins().DebugF("read after %s \n", string(d.in))
 			}
 		} else {
 			return resp
