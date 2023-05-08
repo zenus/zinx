@@ -56,7 +56,7 @@ func (d *JsonDecoder) Decode(buff []byte) [][]byte {
 		if arr != nil {
 			//证明已经解析出一个完整包
 			resp = append(resp, arr)
-			_size := len(arr) + 3
+			_size := len(arr) + 4
 			//_len := len(this.in)
 			//fmt.Println(_len)
 			if _size > 0 {
